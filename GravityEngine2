@@ -1,0 +1,104 @@
+#!/system/bin/sh
+su
+
+sync; busybox mount -o remount,rw /;
+
+sleep 1;
+if [ -e /proc/sys/vm/swappiness ]; then
+	echo 30 > /proc/sys/vm/swappiness
+fi
+
+if [ -e /proc/sys/vm/vfs_cache_pressure ]; then
+	echo 50 > /proc/sys/vm/vfs_cache_pressure
+fi
+
+if [ -e /proc/sys/vm/dirty_expire_centisecs ]; then
+	echo 100 > /proc/sys/vm/dirty_expire_centisecs
+fi
+
+if [ -e /proc/sys/vm/dirty_writeback_centisecs ]; then
+	echo 200 > /proc/sys/vm/dirty_writeback_centisecs
+fi
+
+if [ -e /proc/sys/vm/dirty_ratio ]; then
+	echo 85 > /proc/sys/vm/dirty_ratio
+fi
+
+if [ -e /proc/sys/vm/dirty_background_ratio ]; then
+	echo 10 > /proc/sys/vm/dirty_background_ratio
+fi
+
+if [ -e /proc/sys/vm/dirty_bytes ]; then
+	echo 536870912 > /proc/sys/vm/dirty_bytes
+fi
+
+sleep 1; 
+if [ -e /proc/sys/vm/panic_on_oom  ]; then
+	echo 0 > /proc/sys/vm/panic_on_oom
+fi
+
+if [ -e /proc/sys/kernel/panic  ]; then
+	echo 0 > /proc/sys/kernel/panic
+fi
+
+if [ -e /proc/sys/kernel/panic_on_oops  ]; then
+	echo 0 > /proc/sys/kernel/panic_on_oops
+fi
+
+if [ -e /proc/sys/kernel/hung_task_timeout_secs  ]; then
+	echo 0 > /proc/sys/kernel/hung_task_timeout_secs
+fi
+
+if [ -e /proc/sys/kernel/softlockup_panic  ]; then
+	echo 0 > /proc/sys/kernel/softlockup_panic
+fi
+
+PPID=$(pidof com.cyanogenport.trebuchet)
+echo "-19" > /proc/$PPID/oom_adj
+
+PPID=$(pidof com.android.systemui)
+echo "-19" > /proc/$PPID/oom_adj
+
+PPID=$(pidof com.android.settings)
+echo "-17" > /proc/$PPID/oom_adj
+
+PPID=$(pidof com.android.dialer)
+echo "-18" > /proc/$PPID/oom_adj
+
+PPID=$(pidof com.android.contacts)
+echo "-18" > /proc/$PPID/oom_adj
+
+sleep 1; 
+
+if [ -e /proc/sys/vm/page-cluster ]; then
+	echo 3 > /proc/sys/vm/page-cluster
+fi
+
+if [ -e /proc/sys/vm/min_free_kbytes ]; then
+	echo 15360 > /proc/sys/vm/min_free_kbytes
+fi
+
+if [ -e /proc/sys/vm/min_free_order_shift ]; then
+	echo 4 > /proc/sys/vm/min_free_order_shift
+fi
+
+if [ -e /proc/sys/vm/oom_kill_allocating_task ]; then
+	echo 0 > /proc/sys/vm/oom_kill_allocating_task
+fi
+
+if [ -e /proc/sys/vm/overcommit_memory  ]; then
+	echo 1 > /proc/sys/vm/overcommit_memory 
+fi
+
+if [ -e /proc/sys/vm/oom_dump_tasks  ]; then
+	echo 1 > /proc/sys/vm/oom_dump_tasks
+fi
+
+if [ -e /proc/sys/vm/laptop_mode  ]; then
+	echo 0 > /proc/sys/vm/laptop_mode
+fi
+
+if [ -e /proc/sys/vm/block_dump  ]; then
+	echo 0 > /proc/sys/vm/block_dump
+fi
+
