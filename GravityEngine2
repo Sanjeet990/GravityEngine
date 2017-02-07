@@ -53,21 +53,6 @@ if [ -e /proc/sys/kernel/softlockup_panic  ]; then
 	echo 0 > /proc/sys/kernel/softlockup_panic
 fi
 
-PPID=$(pidof com.cyanogenport.trebuchet)
-echo "-19" > /proc/$PPID/oom_adj
-
-PPID=$(pidof com.android.systemui)
-echo "-19" > /proc/$PPID/oom_adj
-
-PPID=$(pidof com.android.settings)
-echo "-17" > /proc/$PPID/oom_adj
-
-PPID=$(pidof com.android.dialer)
-echo "-18" > /proc/$PPID/oom_adj
-
-PPID=$(pidof com.android.contacts)
-echo "-18" > /proc/$PPID/oom_adj
-
 sleep 1; 
 
 if [ -e /proc/sys/vm/page-cluster ]; then
